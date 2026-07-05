@@ -1,273 +1,314 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>农大玄鉴 · CAU校园服务平台</title><style>*{margin:0;padding:0;box-sizing:border-box}
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>农大玄鉴 · CAU校园服务平台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#f9fafb;color:#2c3e50;line-height:1.7}
 .container{max-width:1100px;margin:0 auto;padding:0 20px}
 nav{background:white;box-shadow:0 2px 16px rgba(0,0,0,.06);position:sticky;top:0;z-index:100;border-bottom:2px solid #e8f5e9}
 .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
-.logo{font-size:1.5em;font-weight:800;color:#2e7d32;letter-spacing:2px}
+.logo{font-size:1.5em;font-weight:800;color:#2e7d32;letter-spacing:2px;cursor:pointer}
 .nav-links{display:flex;gap:24px;align-items:center}
 .nav-links a{cursor:pointer;text-decoration:none;color:#555;font-weight:500;font-size:.95em;padding:6px 12px;border-radius:8px;transition:.2s}
 .nav-links a:hover,.nav-links a.active{background:#e8f5e9;color:#2e7d32}
 .btn-join{background:linear-gradient(135deg,#f9a825,#f57f17);color:white!important;padding:8px 20px!important;border-radius:20px!important;font-weight:700!important}
 .hamburger{display:none;font-size:1.6em;cursor:pointer;color:#2e7d32}
-section{display:none;padding:40px 0;min-height:70vh}section.active{display:block}
+section{display:none;padding:40px 0;min-height:70vh}
+section.active{display:block}
 .card{background:white;border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(0,0,0,.05);transition:.2s;border:1px solid #f0f0f0}
 .card:hover{box-shadow:0 8px 30px rgba(0,0,0,.1);transform:translateY(-2px)}
-.card-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.card-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
 .hero{text-align:center;padding:60px 20px 40px;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;top:-80px;right:-80px;width:200px;height:200px;border:2px solid #c8e6c9;border-radius:50%;opacity:.4}
 .hero h1{font-size:3em;color:#1b5e20;margin-bottom:8px;font-weight:900;letter-spacing:4px}
-.hero .subtitle{font-size:1.15em;color:#666}.hero .tags{font-size:.9em;color:#999;margin-bottom:30px}
+.hero .subtitle{font-size:1.15em;color:#666}
+.hero .tags{font-size:.9em;color:#999;margin:8px 0 30px}
 .btn{display:inline-block;padding:10px 24px;border-radius:24px;font-weight:600;cursor:pointer;border:none;font-size:.95em;transition:.2s;text-decoration:none}
 .btn-primary{background:#43a047;color:white}.btn-primary:hover{background:#2e7d32}
-.btn-gold{background:linear-gradient(135deg,#f9a825,#f57f17);color:white}
-.btn-outline{border:2px solid #43a047;color:#43a047;background:transparent}
+.btn-gold{background:linear-gradient(135deg,#f9a825,#f57f17);color:white}.btn-gold:hover{opacity:.9}
+.btn-outline{border:2px solid #43a047;color:#43a047;background:transparent;cursor:pointer}.btn-outline:hover{background:#e8f5e9}
 .tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
 .tab-btn{padding:8px 20px;border-radius:20px;border:1px solid #ddd;background:white;cursor:pointer;font-size:.9em;transition:.2s}
 .tab-btn.active,.tab-btn:hover{background:#43a047;color:white;border-color:#43a047}
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:center}
 .modal-overlay.show{display:flex}
 .modal{background:white;border-radius:20px;padding:32px;max-width:500px;width:90%;max-height:85vh;overflow-y:auto}
-.modal h3{margin-bottom:16px;color:#1b5e20}.modal label{display:block;margin:12px 0 4px;font-weight:600;font-size:.9em}
-.modal input,.modal select,.modal textarea{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:.95em}
+.modal h3{margin-bottom:16px;color:#1b5e20}
+.modal label{display:block;margin:12px 0 4px;font-weight:600;font-size:.9em}
+.modal input,.modal select,.modal textarea{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:.95em;font-family:inherit}
 .modal textarea{min-height:80px;resize:vertical}.modal .btn{margin-top:16px;width:100%}
 .sec-title{text-align:center;font-size:1.8em;color:#1b5e20;margin-bottom:8px;font-weight:800}
 .sec-sub{text-align:center;color:#888;margin-bottom:32px;font-size:.95em}
 .countdown{text-align:center;padding:16px;background:#e8f5e9;border-radius:12px;font-size:1.1em;color:#2e7d32;font-weight:600;margin-bottom:16px}
 .map-img{width:100%;max-height:500px;object-fit:contain;border-radius:16px;cursor:pointer;border:2px solid #e8f5e9}
 footer{text-align:center;padding:24px;color:#999;font-size:.85em;border-top:1px solid #e8f5e9;margin-top:40px}
-.tips-box{background:#fff8e1;border-left:4px solid #f9a825;padding:16px 20px;border-radius:0 12px 12px 0;margin:16px 0;font-size:.95em}
-.donate-box{text-align:center;padding:24px;background:#fefefe;border-radius:16px;border:2px dashed #e8f5e9;margin:24px 0}
-.donate-box img{max-width:200px;border-radius:12px}
+.tips{background:#fff8e1;border-left:4px solid #f9a825;padding:16px 20px;border-radius:0 12px 12px 0;margin:16px 0}
+.pay-box{text-align:center;padding:20px;background:#fefefe;border-radius:16px;border:2px dashed #e8f5e9;margin:16px 0}
+.pay-box img{max-width:200px;border-radius:12px}
 .tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.8em;color:white}
-.tag-kaoyan{background:#5c6bc0}.tag-food{background:#ef6c00}.tag-essay{background:#26a69a}
-@media(max-width:768px){.nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;width:100%;background:white;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.1)}.nav-links.open{display:flex}.hamburger{display:block}.hero h1{font-size:2em}}</style></head>
+.tag-k{background:#5c6bc0}.tag-f{background:#ef6c00}.tag-e{background:#26a69a}
+.article-card{cursor:pointer}
+@media(max-width:768px){.nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;width:100%;background:white;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.1)}.nav-links.open{display:flex}.hamburger{display:block}.hero h1{font-size:2em}}
+</style>
+</head>
 <body>
-<nav><div class="nav-inner"><div class="logo">农大玄鉴</div><div class="hamburger" onclick="toggleMenu()">☰</div><div class="nav-links" id="navLinks"><a onclick="showPage('home')" class="active" id="nav-home">首页</a><a onclick="showPage('tools')" id="nav-tools">工具</a><a onclick="showPage('services')" id="nav-services">服务</a><a onclick="showPage('submit')" id="nav-submit">投稿</a><a onclick="showPage('join')" class="btn-join" id="nav-join">入驻</a><a onclick="showPage('about')" id="nav-about">关于</a></div></div></nav><section id="home" class="active">
-<div class="hero"><h1>农大玄鉴</h1><p class="subtitle">鉴校园万象 · 通学路坦途</p><p class="tags">校车时刻 · 简历润色 · 校园约拍 · 学长咨询 · 科研推荐</p></div>
-<div class="container">
-<h2 style="text-align:center;color:#2e7d32;margin-bottom:20px">🔧 快捷工具</h2>
+
+
+<nav><div class="nav-inner">
+<div class="logo" onclick="showPage(&#39;home&#39;)">农大玄鉴</div>
+<div class="hamburger" onclick="document.getElementById(&#39;nl&#39;).classList.toggle(&#39;open&#39;)">☰</div>
+<div class="nav-links" id="nl">
+<a onclick="showPage(&#39;home&#39;)" class="active" id="nh">首页</a>
+<a onclick="showPage(&#39;tools&#39;)" id="nt">工具</a>
+<a onclick="showPage(&#39;services&#39;)" id="ns">服务</a>
+<a onclick="showPage(&#39;submit&#39;)" id="nb">投稿</a>
+<a onclick="showPage(&#39;join&#39;)" class="btn-join" id="nj">入驻</a>
+<a onclick="showPage(&#39;about&#39;)" id="na">关于</a>
+</div></div></nav>
+
+<section id="home" class="active"><div class="hero">
+<h1>农大玄鉴</h1><p class="subtitle">鉴校园万象 · 通学路坦途</p>
+<p class="tags">校车时刻 · 简历润色 · 校园约拍 · 学长咨询 · 科研推荐</p>
+</div><div class="container">
+<h2 style="text-align:center;color:#2e7d32;margin-bottom:24px">快捷入口</h2>
 <div class="card-grid" style="grid-template-columns:repeat(3,1fr)">
-<div class="card" onclick="showPage('tools')" style="cursor:pointer"><h3>🚌 校车时刻表</h3><p style="color:#888">东西区实时查询</p></div>
-<div class="card" onclick="showPage('tools')" style="cursor:pointer"><h3>🍽️ 食堂开餐</h3><p style="color:#888">各食堂时间</p></div>
-<div class="card" onclick="showPage('tools')" style="cursor:pointer"><h3>🚿 浴室开放</h3><p style="color:#888">6个浴室</p></div>
+<div class="card" onclick="showPage(&#39;tools&#39;)" style="cursor:pointer"><h3>🚌 校车时刻表</h3><p style="color:#888">东西区对开 · 实时倒计时</p></div>
+<div class="card" onclick="showPage(&#39;tools&#39;)" style="cursor:pointer"><h3>🍽️ 食堂开餐</h3><p style="color:#888">东区西区各食堂</p></div>
+<div class="card" onclick="showPage(&#39;tools&#39;)" style="cursor:pointer"><h3>🚿 浴室开放</h3><p style="color:#888">6个大浴室全覆盖</p></div>
 </div>
-<h2 style="text-align:center;color:#2e7d32;margin:30px 0 20px">🛎️ 校园服务</h2>
-<div class="card-grid" style="grid-template-columns:repeat(4,1fr)">
-<div class="card" onclick="showPage('services')" style="cursor:pointer"><h3>📝 简历润色</h3><p style="color:#888">AI免费 + 9.9元精修</p></div>
-<div class="card" onclick="showPage('services')" style="cursor:pointer"><h3>📸 校园约拍</h3><p style="color:#888">80-150元/小时</p></div>
-<div class="card" onclick="showPage('services')" style="cursor:pointer"><h3>🎯 学长咨询</h3><p style="color:#888">0.5-1元/分钟</p></div>
-<div class="card" onclick="showPage('services')" style="cursor:pointer"><h3>🔬 科研推荐</h3><p style="color:#888">19.9元/份报告</p></div>
+<div class="card-grid" style="grid-template-columns:repeat(4,1fr);margin-top:24px">
+<div class="card" onclick="showPage(&#39;services&#39;)" style="cursor:pointer"><h3>📝 简历润色</h3><p style="color:#888">AI免费+人工9.9元</p></div>
+<div class="card" onclick="showPage(&#39;services&#39;)" style="cursor:pointer"><h3>📸 校园约拍</h3><p style="color:#888">80-150元/时</p></div>
+<div class="card" onclick="showPage(&#39;services&#39;)" style="cursor:pointer"><h3>🎯 学长咨询</h3><p style="color:#888">0.5-1元/分钟</p></div>
+<div class="card" onclick="showPage(&#39;services&#39;)" style="cursor:pointer"><h3>🔬 科研推荐</h3><p style="color:#888">19.9元/份报告</p></div>
 </div>
-<div class="tips-box" style="margin-top:24px"><strong>💰 如何收费：</strong>选择服务 → 扫码付款到平台收款码 → 上传截图 → 客服确认后开始服务 → 完成后平台转给接单者。所有费用先收到平台，结单后再转给服务提供者。</div>
-<h2 style="text-align:center;color:#2e7d32;margin:30px 0 20px">📰 最新投稿</h2>
-<div class="tabs"><button class="tab-btn active" onclick="homeFilter('all',this)">全部</button><button class="tab-btn" onclick="homeFilter('考研考公经验',this)">考研考公</button><button class="tab-btn" onclick="homeFilter('美食探店',this)">美食探店</button><button class="tab-btn" onclick="homeFilter('随笔文章',this)">随笔文章</button></div>
+<h2 style="text-align:center;color:#2e7d32;margin:32px 0 20px">📰 玄鉴文集</h2>
+<div class="tabs">
+<button class="tab-btn active" onclick="filterHome(&#39;all&#39;,this)">全部</button>
+<button class="tab-btn" onclick="filterHome(&#39;考研考公经验&#39;,this)">考研考公</button>
+<button class="tab-btn" onclick="filterHome(&#39;美食探店&#39;,this)">美食探店</button>
+<button class="tab-btn" onclick="filterHome(&#39;随笔文章&#39;,this)">随笔文章</button>
+</div>
 <div class="card-grid" id="homeArticles"></div>
-<div style="text-align:center;margin:16px 0"><a onclick="showPage('submit')" style="color:#43a047;cursor:pointer;font-weight:600">✏️ 我也要投稿 →</a></div>
-</div></section><section id="tools"><div class="container">
-<h1 class="sec-title">校园灵鉴 · 生活工具</h1><p class="sec-sub">校车 · 食堂 · 浴室 · 地图</p>
-<h2 style="color:#2e7d32">🚌 校车时刻表</h2>
-<div class="tabs"><button class="tab-btn active" onclick="switchBus('workday',this)">工作日</button><button class="tab-btn" onclick="switchBus('weekend',this)">周末</button><button class="tab-btn" onclick="switchBus('holiday',this)">寒暑假</button></div>
-<div style="margin-bottom:12px"><button class="btn btn-outline" id="busDir" onclick="toggleDir()">东 → 西</button></div>
+<div class="tips" style="margin-top:32px"><strong>🔔 用户须知</strong> · <a onclick="showTerms()" style="color:#2e7d32;cursor:pointer;text-decoration:underline">点击查看完整条款</a>（含收费说明与抽成比例）</div>
+</div></section>
+
+<section id="tools"><div class="container">
+<h1 class="sec-title">校园灵鉴 · 生活工具</h1><p class="sec-sub">校车时刻 · 食堂开餐 · 浴室开放 · 校园地图</p>
+
+<h2 style="color:#2e7d32;margin-bottom:12px">🚌 校车时刻表</h2>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchBus(&#39;workday&#39;,this)">工作日</button>
+<button class="tab-btn" onclick="switchBus(&#39;weekend&#39;,this)">周末</button>
+<button class="tab-btn" onclick="switchBus(&#39;holiday&#39;,this)">寒暑假</button>
+</div>
+<button class="btn btn-outline" id="dirBtn" onclick="toggleDir()" style="margin-bottom:12px">东 → 西</button>
 <div class="countdown" id="busCD">加载中...</div>
 <div class="card-grid" id="busList"></div>
-<h2 style="color:#2e7d32;margin-top:28px">🍽️ 食堂开餐</h2>
+
+<h2 style="color:#2e7d32;margin:28px 0 12px">🍽️ 食堂开餐时间</h2>
 <div class="card-grid">
-<div class="card"><h3>东区·公主楼二层</h3><p>早6:30-9:00 | 午11:00-13:00 | 晚17:00-19:00</p></div>
-<div class="card"><h3>东区·王子楼B1</h3><p>早6:30-9:30 | 午11:00-13:30 | 晚17:00-20:00</p></div>
-<div class="card"><h3>西区·颐园二层</h3><p>早6:30-9:00 | 午11:00-13:00 | 晚17:00-19:00</p></div>
-<div class="card"><h3>西区·和园三层</h3><p>全天 10:00-21:00</p></div>
+<div class="card"><h3>东区 · 公主楼二层食堂</h3><p>早餐 6:30-9:00 | 午餐 11:00-13:00 | 晚餐 17:00-19:00</p></div>
+<div class="card"><h3>东区 · 王子楼地下一层食堂</h3><p>早餐 6:30-9:30 | 午餐 11:00-13:30 | 晚餐 17:00-20:00</p></div>
+<div class="card"><h3>西区 · 颐园二层食堂</h3><p>早餐 6:30-9:00 | 午餐 11:00-13:00 | 晚餐 17:00-19:00</p></div>
+<div class="card"><h3>西区 · 和园三层食堂</h3><p>全天 10:00-21:00</p></div>
 </div>
-<h2 style="color:#2e7d32;margin-top:28px">🚿 浴室开放</h2>
+
+<h2 style="color:#2e7d32;margin:28px 0 12px">🚿 浴室开放时间</h2>
 <div class="card-grid">
-<div class="card"><h3>东区·公主楼浴室</h3><p style="color:#888">公主楼A座B1 | 女</p><p><strong>15:00-22:30</strong></p></div>
-<div class="card"><h3>东区·王子楼浴室</h3><p style="color:#888">王子楼B1 | 男</p><p><strong>15:00-22:30</strong></p></div>
-<div class="card"><h3>东区·研究生楼浴室</h3><p style="color:#888">研楼1-3层</p><p><strong>15:30-22:00</strong></p></div>
-<div class="card"><h3>西区·颐园浴室</h3><p style="color:#888">颐园B1</p><p><strong>15:00-22:30</strong></p></div>
-<div class="card"><h3>西区·和园浴室</h3><p style="color:#888">和园1层</p><p><strong>15:30-22:00</strong></p></div>
-<div class="card"><h3>西区·留学生浴室</h3><p style="color:#888">留学生公寓内</p><p><strong>全天</strong></p></div>
+<div class="card"><h3>东区 · 公主楼浴室</h3><p style="color:#888">公主楼A座B1 | 女</p><p><strong>15:00-22:30</strong></p></div>
+<div class="card"><h3>东区 · 王子楼浴室</h3><p style="color:#888">王子楼B1 | 男</p><p><strong>15:00-22:30</strong></p></div>
+<div class="card"><h3>东区 · 研究生楼浴室</h3><p style="color:#888">研楼1-3层</p><p><strong>15:30-22:00</strong></p></div>
+<div class="card"><h3>西区 · 颐园浴室</h3><p style="color:#888">颐园B1</p><p><strong>15:00-22:30</strong></p></div>
+<div class="card"><h3>西区 · 和园浴室</h3><p style="color:#888">和园1层</p><p><strong>15:30-22:00</strong></p></div>
+<div class="card"><h3>西区 · 留学生浴室</h3><p style="color:#888">留学生公寓内</p><p><strong>全天</strong></p></div>
 </div>
-<h2 style="color:#2e7d32;margin-top:28px">🗺️ 校园地图</h2>
-<div class="tabs"><button class="tab-btn active" onclick="switchMap('east',this)">东校区</button><button class="tab-btn" onclick="switchMap('west',this)">西校区</button></div>
-<img id="mapImg" class="map-img" src="v2-2db4c3796ca14dcca685e9cbdff19f8b_r.jpg" alt="东校区地图" onclick="this.style.maxHeight=this.style.maxHeight==='none'?'500px':'none'" title="点击放大/缩小">
-<p style="text-align:center;color:#888;font-size:.85em;margin-top:8px">点击地图可放大查看 · 滚轮缩放</p>
-</div></section><section id="services"><div class="container">
-<h1 class="sec-title">灵宝阁 · 校园服务</h1><p class="sec-sub">扫码付款到平台 → 客服确认 → 开始服务</p>
+
+<h2 style="color:#2e7d32;margin:28px 0 12px">🗺️ 校园地图</h2>
+<div class="tabs">
+<button class="tab-btn active" onclick="switchMap(&#39;east&#39;,this)">东校区</button>
+<button class="tab-btn" onclick="switchMap(&#39;west&#39;,this)">西校区</button>
+</div>
+<img class="map-img" id="mapImg" src="v2-2db4c3796ca14dcca685e9cbdff19f8b_r.jpg" onclick="window.open(this.src)" alt="东校区地图">
+</div></section>
+
+<section id="services"><div class="container">
+<h1 class="sec-title">灵宝阁 · 校园服务</h1><p class="sec-sub">专业校园服务，助你学业生活两不误</p>
 <div class="card-grid">
-<div class="card"><h3>📝 简历润色</h3><p><strong>AI免费建议</strong>：跳转DeepSeek网页版，粘贴简历即得建议</p><p><strong>人工精修9.9元/篇</strong>：专业学长学姐逐字打磨</p><button class="btn btn-primary" style="margin-right:8px" onclick="openDeepSeek()">🤖 免费AI建议</button><button class="btn btn-outline" onclick="openBook('简历润色')">📝 预约人工(9.9元)</button></div>
-<div class="card"><h3>📸 校园约拍</h3><p>毕业照·活动跟拍·个人写真<br>专业设备+精修成片</p><p style="color:#43a047;font-weight:700;font-size:1.2em">80-150元/小时</p><button class="btn btn-primary" onclick="openBook('校园约拍')">立即预约</button></div>
-<div class="card"><h3>🎯 学长咨询</h3><p>选课·考研·求职·实习<br>过来人一对一答疑解惑</p><p style="color:#43a047;font-weight:700;font-size:1.2em">0.5-1元/分钟</p><button class="btn btn-primary" onclick="openBook('学长咨询')">立即预约</button></div>
-<div class="card"><h3>🔬 科研推荐</h3><p>根据你的背景和兴趣<br>匹配推荐实验室方向+导师</p><p style="color:#43a047;font-weight:700;font-size:1.2em">19.9元/份报告</p><button class="btn btn-primary" onclick="openBook('科研推荐')">提交需求</button></div>
+<div class="card"><h3>📝 简历润色</h3><p>AI免费建议 + 学长学姐人工精修</p><p style="color:#43a047;font-weight:700;font-size:1.2em">AI免费 | 人工9.9元</p><button class="btn btn-primary" onclick="window.open(&#39;https://chat.deepseek.com&#39;,&#39;_blank&#39;)" style="margin-bottom:8px">🤖 免费AI建议</button><button class="btn btn-outline" onclick="book(&#39;简历润色&#39;)">📝 人工精修 9.9元</button></div>
+<div class="card"><h3>📸 校园约拍</h3><p>毕业照、活动跟拍、个人写真</p><p style="color:#43a047;font-weight:700;font-size:1.2em">80-150元/小时</p><button class="btn btn-primary" onclick="book(&#39;校园约拍&#39;)">立即预约</button></div>
+<div class="card"><h3>🎯 学长咨询</h3><p>选课/考研/求职，过来人一对一</p><p style="color:#43a047;font-weight:700;font-size:1.2em">0.5-1元/分钟</p><button class="btn btn-primary" onclick="book(&#39;学长咨询&#39;)">立即预约</button></div>
+<div class="card"><h3>🔬 科研推荐</h3><p>匹配实验室方向，推荐导师</p><p style="color:#43a047;font-weight:700;font-size:1.2em">19.9元/份报告</p><button class="btn btn-primary" onclick="book(&#39;科研推荐&#39;)">立即预约</button></div>
 </div>
-<div class="tips-box" style="margin-top:24px"><strong>📋 付费流程：</strong>① 预约 → ② 扫码平台收款码付款 → ③ 截图发给客服微信 TheFool0521 → ④ 客服确认后对接服务 → ⑤ 完成后平台与接单者结算</div>
-</div></section><section id="submit"><div class="container">
-<h1 class="sec-title">玄鉴文集 · 校园投稿</h1><p class="sec-sub">分享你的农大故事，无需审核，发布即展示</p>
-<div style="text-align:center;margin-bottom:20px"><button class="btn btn-gold" onclick="openWrite()">✏️ 我要投稿</button></div>
-<div class="tabs"><button class="tab-btn active" onclick="subFilter('all',this)">全部</button><button class="tab-btn" onclick="subFilter('考研考公经验',this)">考研考公经验</button><button class="tab-btn" onclick="subFilter('美食探店',this)">美食探店</button><button class="tab-btn" onclick="subFilter('随笔文章',this)">随笔文章</button></div>
+<div class="pay-box"><h3 style="color:#2e7d32;margin-bottom:12px">💳 付款扫码</h3><img src="好友码.jpg" alt="付款码"><p style="color:#888;margin-top:8px">扫码付款后截图发给微信 TheFool0521 确认</p></div>
+<div class="tips"><strong>📋 收费说明：</strong>所有费用先收到平台好友码，服务完成后平台将报酬转给接单者。咨询按分钟计费。详见<a onclick="showTerms()" style="color:#2e7d32;cursor:pointer;text-decoration:underline">用户须知</a>。</div>
+</div></section>
+
+<section id="submit"><div class="container">
+<h1 class="sec-title">玄鉴文集 · 校园投稿</h1><p class="sec-sub">分享你的农大故事，发布即展示</p>
+<div style="text-align:center;margin-bottom:24px"><button class="btn btn-gold" onclick="openWrite()">✍️ 写文章</button></div>
+<div class="tabs">
+<button class="tab-btn active" onclick="filterSub(&#39;all&#39;,this)">全部</button>
+<button class="tab-btn" onclick="filterSub(&#39;考研考公经验&#39;,this)">考研考公</button>
+<button class="tab-btn" onclick="filterSub(&#39;美食探店&#39;,this)">美食探店</button>
+<button class="tab-btn" onclick="filterSub(&#39;随笔文章&#39;,this)">随笔文章</button>
+</div>
 <div class="card-grid" id="subArticles"></div>
-</div></section><section id="join"><div class="container">
-<h1 class="sec-title">入玄鉴 · 用才华赚钱</h1><p class="sec-sub">加入我们，为农大同学提供服务</p>
+</div></section>
+
+<section id="join"><div class="container">
+<h1 class="sec-title">入玄鉴 · 用才华赚钱</h1><p class="sec-sub">加入我们，服务农大同学</p>
 <div class="card-grid" style="grid-template-columns:1fr 1fr">
-<div class="card"><h3>🎯 招募对象</h3><p>📝 简历修改师 &nbsp; 📸 校园摄影师<br>🎯 学长学姐 &nbsp; 🔬 科研达人</p></div>
-<div class="card"><h3>✅ 入驻条件</h3><p>✓ 中国农业大学在校生/校友<br>✓ 相关领域有实际经验<br>✓ 通过平台审核</p></div>
-<div class="card"><h3>🌟 平台权益</h3><p>✓ 首页曝光推广<br>✓ 自动匹配客户<br>✓ 快速结算提现<br>✓ 专属客服支持</p></div>
-<div class="card"><h3>📋 服务费率</h3><p>简历/约拍15% | 咨询20% | 科研25%<br><span style="color:#888;font-size:.85em">详见用户须知</span></p></div>
+<div class="card"><h3>招募对象</h3><p>📝 简历修改师 · 📸 校园摄影师<br>🎯 学长学姐 · 🔬 科研达人</p></div>
+<div class="card"><h3>入驻条件</h3><p>✓ 中国农业大学在校生/校友<br>✓ 相关领域有经验<br>✓ 通过平台审核</p></div>
+<div class="card"><h3>平台权益</h3><p>✓ 平台推广曝光<br>✓ 自动匹配客户<br>✓ 快速结算提现</p></div>
+<div class="card"><h3>如何结算</h3><p>客户付款到平台好友码 →<br>服务完成 → 平台转给你</p></div>
 </div>
 <div style="text-align:center;margin-top:32px"><button class="btn btn-gold" onclick="openJoin()" style="font-size:1.1em;padding:14px 40px">立即申请入驻</button></div>
-</div></section><section id="about"><div class="container" style="max-width:640px">
+</div></section>
+
+<section id="about"><div class="container" style="max-width:640px">
 <h1 class="sec-title">关于农大玄鉴</h1>
 <div class="card" style="text-align:center">
 <p style="font-size:1.1em;line-height:2">农大玄鉴是中国农业大学校园服务平台，取"玄鉴仙族"之意，愿为农大学子鉴照校园万象，通达学路坦途。</p>
 <p style="color:#43a047;font-weight:700;margin:16px 0">使命：让校园生活更高效、更有趣</p>
-<p>📧 联系邮箱：<a href="mailto:wyz2795206085@outlook.com">wyz2795206085@outlook.com</a></p>
-<p>💬 客服微信：TheFool0521</p>
-<button class="btn btn-outline" onclick="openFeedback()" style="margin:12px 0">💬 反馈建议</button>
-<button class="btn btn-outline" onclick="openTerms()" style="margin:12px 0">📋 用户须知</button>
+<p>📧 wyz2795206085@outlook.com</p>
+<p>💬 微信 TheFool0521</p>
+<button class="btn btn-outline" onclick="showMsg(&#39;感谢反馈！&#39;,&#39;玄鉴将认真对待每一条建议。可以直接联系微信 TheFool0521。&#39;)" style="margin:16px 0">💬 反馈建议</button>
+<button class="btn btn-outline" onclick="showTerms()">📋 用户须知</button>
 </div>
-<div class="donate-box">
+<div class="pay-box" style="margin-top:24px">
 <h3 style="color:#2e7d32;margin-bottom:12px">☕ 支持玄鉴</h3>
-<img src="收款码.jpg" alt="收款码">
-<p style="color:#888;font-size:.85em;margin-top:8px">微信扫码，支持校园平台持续运营</p>
+<img src="好友码.jpg" alt="好友码"><p style="color:#888;margin-top:8px">扫码添加好友 · 支持校园平台</p>
 </div>
-</div></section><footer>©2026 农大玄鉴 · 中国农业大学校园服务平台 · 鉴照万象 通达坦途</footer>
-<div class="modal-overlay" id="bookModal"><div class="modal">
-<h3 id="bookTitle">预约服务</h3>
-<label>服务类型</label><select id="bookType"><option>简历润色</option><option>校园约拍</option><option>学长咨询</option><option>科研推荐</option></select>
-<label>姓名 *</label><input id="bookName" placeholder="请输入姓名">
-<label>微信号 *</label><input id="bookWechat" placeholder="请输入微信号">
-<label>备注</label><textarea id="bookNote" placeholder="选填"></textarea>
-<div class="tips-box">💡 提交后请扫码付款，并截图发给客服微信 <strong>TheFool0521</strong></div>
+</div></section>
+
+<footer>©2026 农大玄鉴 · 中国农业大学校园服务平台 · 鉴照万象 通达坦途</footer>
+
+<div class="modal-overlay" id="bm"><div class="modal">
+<h3 id="bTitle">预约服务</h3>
+<label>服务类型</label><select id="bType"><option>简历润色</option><option>校园约拍</option><option>学长咨询</option><option>科研推荐</option></select>
+<label>姓名 *</label><input id="bName">
+<label>微信号 *</label><input id="bWx">
+<label>备注</label><input id="bNote">
 <button class="btn btn-primary" onclick="doBook()">提交预约</button>
-<button class="btn btn-outline" onclick="closeMod('bookModal')" style="margin-top:8px">取消</button>
+<button class="btn btn-outline" onclick="closeMod(&#39;bm&#39;)" style="margin-top:8px">取消</button>
 </div></div>
 
-<div class="modal-overlay" id="joinModal"><div class="modal">
+<div class="modal-overlay" id="jm"><div class="modal">
 <h3>申请入驻</h3>
-<label>姓名 *</label><input id="joinName" placeholder="请输入姓名">
-<label>微信号 *</label><input id="joinWechat" placeholder="请输入微信号">
-<label>学校</label><input id="joinSchool" value="中国农业大学">
-<label>服务类型</label><select id="joinType"><option>简历修改师</option><option>校园摄影师</option><option>学长学姐</option><option>科研达人</option></select>
-<label>个人简介 *</label><textarea id="joinBio" placeholder="请介绍你的相关经验和优势"></textarea>
-<label>作品链接</label><input id="joinLink" placeholder="选填">
+<label>姓名 *</label><input id="jName">
+<label>微信号 *</label><input id="jWx">
+<label>学校</label><input id="jSchool" value="中国农业大学">
+<label>服务类型</label><select id="jType"><option>简历修改师</option><option>校园摄影师</option><option>学长学姐</option><option>科研达人</option></select>
+<label>个人简介 *</label><textarea id="jBio"></textarea>
+<label>作品链接</label><input id="jLink">
 <button class="btn btn-primary" onclick="doJoin()">提交申请</button>
-<button class="btn btn-outline" onclick="closeMod('joinModal')" style="margin-top:8px">取消</button>
+<button class="btn btn-outline" onclick="closeMod(&#39;jm&#39;)" style="margin-top:8px">取消</button>
 </div></div>
 
-<div class="modal-overlay" id="writeModal"><div class="modal" style="max-width:600px">
-<h3>✏️ 写文章</h3>
-<label>分类</label><select id="writeCat"><option>考研考公经验</option><option>美食探店</option><option>随笔文章</option></select>
-<label>标题 *</label><input id="writeTitle" placeholder="请输入标题">
-<label>署名</label><input id="writeAuthor" placeholder="留空则显示'匿名'">
-<label>正文 *</label><textarea id="writeContent" placeholder="在这里写下你的故事..." style="min-height:200px"></textarea>
-<div class="tips-box">📌 发布后即刻在首页展示，无需审核。请文明投稿。</div>
-<button class="btn btn-primary" onclick="doWrite()">📤 发布文章</button>
-<button class="btn btn-outline" onclick="closeMod('writeModal')" style="margin-top:8px">取消</button>
+<div class="modal-overlay" id="wm"><div class="modal">
+<h3>写文章</h3>
+<label>分类</label><select id="wCat"><option>考研考公经验</option><option>美食探店</option><option>随笔文章</option></select>
+<label>标题 *</label><input id="wTitle">
+<label>正文 *</label><textarea id="wContent" style="min-height:150px"></textarea>
+<label>署名</label><input id="wAuthor" value="匿名">
+<button class="btn btn-primary" onclick="doWrite()">发布</button>
+<button class="btn btn-outline" onclick="closeMod(&#39;wm&#39;)" style="margin-top:8px">取消</button>
 </div></div>
 
-<div class="modal-overlay" id="articleModal"><div class="modal" style="max-width:640px" id="articleContent"></div></div>
+<div class="modal-overlay" id="am"><div class="modal" style="max-width:640px" id="amContent"></div></div>
 
-<div class="modal-overlay" id="msgModal"><div class="modal" style="text-align:center" id="msgContent"></div></div>
+<div class="modal-overlay" id="mm"><div class="modal" id="mmContent" style="text-align:center"></div></div>
+
 
 <script>
 var busData={workday:["7:10","8:20","9:20","10:20","11:20","12:20","13:20","14:20","15:20","16:20","17:40","18:20","22:00"],weekend:["7:20","11:30","13:00","17:00"],holiday:["8:00","11:30","13:00","17:00"]};
 var busTab="workday",busDir="东→西",busTimer=null;
 
 var defaultArticles=[
-{id:1,category:"考研考公经验",title:"从农大到北大：我的跨校考研之路",content:"分享备考规划、资料选择和心态调整的全过程。从大三下学期开始准备，每天6小时，坚持了8个月。最重要的是找到了适合自己的节奏和方法……",author:"农学长",date:"2026-06-15"},
-{id:2,category:"美食探店",title:"西区颐园隐藏菜单大揭秘",content:"吃了四年才发现这些窗口的隐藏好菜！一楼的麻辣香锅加麻加辣是标配，二楼的铁板饭量足味美，三楼的清真窗口羊肉泡馍绝了……",author:"吃货小农",date:"2026-06-10"},
-{id:3,category:"随笔文章",title:"那年夏天，农大的向日葵开了",content:"毕业前的最后一次漫步校园。东区主楼前的向日葵开得正好，金灿灿的一片。四年前也是这样站在这里，那时还是新生，对这所百年老校充满好奇……",author:"将离",date:"2026-06-01"},
-{id:4,category:"考研考公经验",title:"考公上岸经验：从零到一的备考规划",content:"行测+申论全套复习方案，适合大三开始准备。先说行测：资料分析是拿分大户，必须练到20分钟做完20题错不超过2个……",author:"体制人",date:"2026-05-20"},
-{id:5,category:"美食探店",title:"东区王子楼食堂早餐测评",content:"一周不重样的早餐搭配推荐。周一：煎饼果子+豆浆，周二的包子配小米粥是经典，周三的油条豆腐脑最绝……",author:"早八战士",date:"2026-05-15"},
-{id:6,category:"随笔文章",title:"图书馆四楼靠窗的位置",content:"每个农大人都有一个属于自己的自习角落。我的在图书馆四楼最里面靠窗的位置，窗外能看到操场和远处的西山。在这里度过了无数个期末和考研的夜晚……",author:"书虫",date:"2026-05-08"},
-{id:7,category:"考研考公经验",title:"二战上岸：心态比努力更重要",content:"第一年失利后的反思与调整。最大的教训是：不要用战术上的勤奋掩盖战略上的懒惰。第二年调整了策略，少刷视频多看真题……",author:"坚持者",date:"2026-04-22"},
-{id:8,category:"美食探店",title:"西区和园三层值得一试的10道菜",content:"从麻辣香锅到清蒸鱼，全方位测评。TOP1：水煮肉片，肉嫩汤鲜……",author:"味蕾侦探",date:"2026-04-10"},
-{id:9,category:"随笔文章",title:"致新生：农大生存指南",content:"选课、社团、恋爱、实习，过来人的真心话。首先选课：别贪多，大一先适应节奏。社团选1-2个够了……",author:"老学长",date:"2026-03-15"},
-{id:10,category:"考研考公经验",title:"中农专业课复习资料汇总(免费)",content:"整理了历年真题和笔记，分享给学弟学妹。包含植物生理学、生物化学、遗传学等核心课程……",author:"资料侠",date:"2026-03-01"}
+{id:1,category:"考研考公经验",title:"从农大到北大：我的跨校考研之路",content:"分享备考规划、资料选择和心态调整的全过程。从大三下学期开始准备，每天保持8小时高效学习……",author:"农学长",date:"2026-06-15"},
+{id:2,category:"美食探店",title:"西区颐园隐藏菜单大揭秘",content:"吃了四年才发现这些窗口的隐藏好菜。颐园二层的麻辣香锅性价比最高……",author:"吃货小农",date:"2026-06-10"},
+{id:3,category:"随笔文章",title:"那年夏天，农大的向日葵开了",content:"毕业前的最后一次漫步校园，那些花儿和故事。操场边的向日葵每年都在六月盛开……",author:"将离",date:"2026-06-01"},
+{id:4,category:"考研考公经验",title:"考公上岸：从零到一的备考规划",content:"行测+申论全套复习方案，适合大三开始准备。先打基础再刷题……",author:"体制人",date:"2026-05-20"},
+{id:5,category:"美食探店",title:"东区王子楼食堂早餐测评",content:"一周不重样的早餐搭配推荐。王子楼的油条豆浆是早八人的救星……",author:"早八战士",date:"2026-05-15"},
+{id:6,category:"随笔文章",title:"图书馆四楼靠窗的位置",content:"每个农大人都有一个属于自己的自习角落。靠窗的位置能看到银杏大道……",author:"书虫",date:"2026-05-08"},
+{id:7,category:"考研考公经验",title:"二战上岸：心态比努力更重要",content:"第一年失利后的反思与调整。不要把考研当成唯一出路……",author:"坚持者",date:"2026-04-22"},
+{id:8,category:"美食探店",title:"西区和园三层值得一试的10道菜",content:"从麻辣香锅到清蒸鱼，全方位测评。和园三层的环境最好……",author:"味蕾侦探",date:"2026-04-10"},
+{id:9,category:"随笔文章",title:"致新生：农大生存指南",content:"选课、社团、恋爱、实习，过来人的真心话。大一最重要的是找到自己的节奏……",author:"老学长",date:"2026-03-15"},
+{id:10,category:"考研考公经验",title:"中农专业课复习资料汇总",content:"整理了历年真题和笔记免费分享。希望学弟学妹少走弯路……",author:"资料侠",date:"2026-03-01"}
 ];
 
-function loadArticles(){try{var a=localStorage.getItem("xuanjian_articles");return a?JSON.parse(a):(function(){localStorage.setItem("xuanjian_articles",JSON.stringify(defaultArticles));return defaultArticles;})();}
-function saveArticles(arr){localStorage.setItem("xuanjian_articles",JSON.stringify(arr));}
-var articles=loadArticles();
+function loadArticles(){try{return JSON.parse(localStorage.getItem("xuanjian_arts")||null)||defaultArticles;}catch(e){return defaultArticles;}}
+function saveArticles(a){try{localStorage.setItem("xuanjian_arts",JSON.stringify(a));}catch(e){}}
 
-function showPage(n){
-document.querySelectorAll("section").forEach(function(s){s.classList.remove("active");});
-var sec=document.getElementById(n);if(sec)sec.classList.add("active");
-document.querySelectorAll(".nav-links a").forEach(function(a){a.classList.remove("active");});
-var nav=document.getElementById("nav-"+n);if(nav)nav.classList.add("active");
-if(n==="tools"){renderBus();startCD();}
-if(n==="home"||n==="submit")renderArts("all",n==="home"?"homeArticles":"subArticles");
-window.scrollTo(0,0);
+function showPage(name){
+  document.querySelectorAll("section").forEach(function(s){s.classList.remove("active");});
+  var sec=document.getElementById(name);if(sec)sec.classList.add("active");
+  document.querySelectorAll(".nav-links a").forEach(function(a){a.classList.remove("active");});
+  var nav=document.getElementById("n"+name.charAt(0));if(nav)nav.classList.add("active");
+  window.scrollTo(0,0);
 }
-function toggleMenu(){document.getElementById("navLinks").classList.toggle("open");}
 
-// Bus
-function switchBus(t,btn){busTab=t;document.querySelectorAll("#tools .tabs .tab-btn").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");renderBus();startCD();}
-function toggleDir(){busDir=busDir==="东→西"?"西→东":"东→西";document.getElementById("busDir").textContent=busDir;renderBus();}
+function renderArts(cat,cid){
+  var all=loadArticles(),filtered=cat=="all"?all:all.filter(function(a){return a.category===cat;});
+  var c={"考研考公经验":"tag-k","美食探店":"tag-f","随笔文章":"tag-e"};
+  document.getElementById(cid).innerHTML=filtered.map(function(a){
+    return '<div class="card article-card" onclick="openArt('+a.id+')"><span class="tag '+c[a.category]+'">'+a.category+'</span><h3 style="margin:8px 0">'+a.title+'</h3><p style="color:#888;font-size:.9em">'+a.content.slice(0,60)+'...</p><p style="color:#aaa;font-size:.8em;margin-top:8px">'+a.author+' · '+a.date+'</p></div>';
+  }).join("");
+}
+
+function filterHome(cat,btn){document.querySelectorAll("#home .tab-btn").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");renderArts(cat,"homeArticles");}
+function filterSub(cat,btn){document.querySelectorAll("#submit .tab-btn").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");renderArts(cat,"subArticles");}
+function openArt(id){var a=loadArticles().find(function(x){return x.id===id;});if(!a)return;document.getElementById("amContent").innerHTML='<h2>'+a.title+'</h2><p style="color:#888;margin:8px 0">'+a.author+' · '+a.date+'</p><hr style="margin:16px 0"><p style="line-height:2;white-space:pre-wrap">'+a.content+'</p><button class="btn btn-outline" onclick="closeMod('am')" style="margin-top:16px">关闭</button>';document.getElementById("am").classList.add("show");}
+function openWrite(){document.getElementById("wm").classList.add("show");}
+function doWrite(){
+  var cat=document.getElementById("wCat").value,title=document.getElementById("wTitle").value.trim(),content=document.getElementById("wContent").value.trim(),author=document.getElementById("wAuthor").value.trim()||"匿名";
+  if(!title||!content){alert("请填写标题和正文");return;}
+  var all=loadArticles(),maxId=all.reduce(function(m,a){return Math.max(m,a.id);},0);
+  all.unshift({id:maxId+1,category:cat,title:title,content:content,author:author,date:new Date().toISOString().slice(0,10)});
+  saveArticles(all);closeMod("wm");
+  document.getElementById("wTitle").value="";document.getElementById("wContent").value="";
+  renderArts("all","homeArticles");renderArts("all","subArticles");alert("发布成功！");
+}
+
+function book(type){document.getElementById("bType").value=type;document.getElementById("bTitle").textContent="预约 - "+type;document.getElementById("bm").classList.add("show");}
+function doBook(){
+  var t=document.getElementById("bType").value,n=document.getElementById("bName").value,w=document.getElementById("bWx").value;
+  if(!n||!w){alert("请填写姓名和微信号");return;}
+  var bks=JSON.parse(localStorage.getItem("xuanjian_bks")||"[]");bks.push({type:t,name:n,wechat:w,date:new Date().toISOString().slice(0,10)});localStorage.setItem("xuanjian_bks",JSON.stringify(bks));
+  closeMod("bm");showMsg("预约成功！","请扫码付款到好友码，截图发给微信 <strong>TheFool0521</strong>，确认后为你对接服务。");
+}
+
+function openJoin(){document.getElementById("jm").classList.add("show");}
+function doJoin(){
+  var n=document.getElementById("jName").value,w=document.getElementById("jWx").value,t=document.getElementById("jType").value,b=document.getElementById("jBio").value;
+  if(!n||!w||!b){alert("请填写必填项");return;}
+  var apps=JSON.parse(localStorage.getItem("xuanjian_jn")||"[]");apps.push({name:n,wechat:w,type:t,bio:b,date:new Date().toISOString().slice(0,10)});localStorage.setItem("xuanjian_jn",JSON.stringify(apps));
+  closeMod("jm");showMsg("申请已提交！","3个工作日内审核，请留意微信 <strong>TheFool0521</strong> 的好友申请。");
+}
+
+function switchBus(t,btn){busTab=t;document.querySelectorAll("#tools .tabs:first-of-type .tab-btn").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");renderBus();startCD();}
+function toggleDir(){busDir=busDir==="东→西"?"西→东":"东→西";document.getElementById("dirBtn").textContent=busDir;renderBus();}
 function renderBus(){document.getElementById("busList").innerHTML=busData[busTab].map(function(t){return '<div class="card" style="text-align:center"><h2>'+t+'</h2><p style="color:#888">'+busDir+'</p></div>';}).join("");}
 function startCD(){if(busTimer)clearInterval(busTimer);
-function up(){var t=busData[busTab],n=new Date(),c=n.getHours()*60+n.getMinutes(),nx=null;
-for(var i=0;i<t.length;i++){var p=t[i].split(":"),m=parseInt(p[0])*60+parseInt(p[1]);if(m>c){nx=m;break;}}
-var el=document.getElementById("busCD");
-if(nx===null)el.textContent="今日已无班车";
-else{var d=nx-c;el.textContent="下一班 "+Math.floor(d/60)+" 分 "+d%60+" 秒后发车 · "+busDir;}
-}up();busTimer=setInterval(up,1000);}
+  function up(){
+    var t=busData[busTab],n=new Date(),c=n.getHours()*60+n.getMinutes(),nx=null;
+    for(var i=0;i<t.length;i++){var p=t[i].split(":"),m=parseInt(p[0])*60+parseInt(p[1]);if(m>c){nx=m;break;}}
+    var el=document.getElementById("busCD");if(nx===null)el.textContent="今日已无班车";else{var d=nx-c;el.textContent="下一班 "+Math.floor(d/60)+" 分 "+d%60+" 秒后发车 · "+busDir;}
+  }
+  up();busTimer=setInterval(up,1000);
+}
 
-// Map
 function switchMap(c,btn){document.querySelectorAll("#tools .tabs:last-of-type .tab-btn").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");document.getElementById("mapImg").src=c==="east"?"v2-2db4c3796ca14dcca685e9cbdff19f8b_r.jpg":"v2-5e8f90702df1ac5eb49723a562d7f577_r.jpg";}
 
-// Articles
-function renderArts(cat,containerId){var all=loadArticles();var filtered=cat==="all"?all:all.filter(function(a){return a.category===cat;});document.getElementById(containerId).innerHTML=filtered.map(function(a){var tc=a.category==="考研考公经验"?"tag-kaoyan":a.category==="美食探店"?"tag-food":"tag-essay";return '<div class="card" onclick="openArt('+a.id+')" style="cursor:pointer"><span class="tag '+tc+'">'+a.category+'</span><h3 style="margin:8px 0">'+a.title+'</h3><p style="color:#888;font-size:.9em">'+a.content.slice(0,60)+'...</p><p style="color:#aaa;font-size:.8em;margin-top:8px">'+a.author+' · '+a.date+'</p></div>';}).join("");}
-function homeFilter(cat,btn){document.querySelectorAll("#home .tabs .tab-btn").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");renderArts(cat,"homeArticles");}
-function subFilter(cat,btn){document.querySelectorAll("#submit .tabs .tab-btn").forEach(function(b){b.classList.remove("active");});btn.classList.add("active");renderArts(cat,"subArticles");}
-function openArt(id){var all=loadArticles();var a=all.find(function(x){return x.id===id;});if(!a)return;document.getElementById("articleContent").innerHTML='<h2>'+a.title+'</h2><p style="color:#888;margin:8px 0">'+a.author+' · '+a.date+'</p><hr style="margin:16px 0"><p style="line-height:2;white-space:pre-wrap">'+a.content+'</p><button class="btn btn-outline" onclick="closeMod(&amp;quot;articleModal&amp;quot;)" style="margin-top:16px">关闭</button>';document.getElementById("articleModal").classList.add("show");}
-
-// Write
-function openWrite(){document.getElementById("writeModal").classList.add("show");}
-function doWrite(){
-var cat=document.getElementById("writeCat").value,title=document.getElementById("writeTitle").value.trim(),content=document.getElementById("writeContent").value.trim(),author=document.getElementById("writeAuthor").value.trim()||"匿名";
-if(!title||!content){alert("请填写标题和正文");return;}
-var all=loadArticles();var maxId=all.reduce(function(m,a){return Math.max(m,a.id);},0);
-all.unshift({id:maxId+1,category:cat,title:title,content:content,author:author,date:new Date().toISOString().slice(0,10)});
-saveArticles(all);closeMod("writeModal");
-document.getElementById("writeTitle").value="";document.getElementById("writeContent").value="";document.getElementById("writeAuthor").value="";
-renderArts("all","homeArticles");renderArts("all","subArticles");
-alert("发布成功！你的文章已展示在首页。");
-}
-
-// Book
-function openBook(type){document.getElementById("bookType").value=type;document.getElementById("bookTitle").textContent="预约 - "+type;document.getElementById("bookModal").classList.add("show");}
-function doBook(){
-var t=document.getElementById("bookType").value,n=document.getElementById("bookName").value,w=document.getElementById("bookWechat").value,nt=document.getElementById("bookNote").value;
-if(!n||!w){alert("请填写姓名和微信号");return;}
-var bks=JSON.parse(localStorage.getItem("xuanjian_bookings")||"[]");bks.push({type:t,name:n,wechat:w,note:nt,date:new Date().toISOString().slice(0,10)});localStorage.setItem("xuanjian_bookings",JSON.stringify(bks));
-closeMod("bookModal");showMsg("预约成功！","请扫码付款并截图发给客服微信 <strong>TheFool0521</strong>，确认后将为你对接服务。");
-}
-
-// Join
-function openJoin(){document.getElementById("joinModal").classList.add("show");}
-function doJoin(){
-var n=document.getElementById("joinName").value,w=document.getElementById("joinWechat").value,s=document.getElementById("joinSchool").value,t=document.getElementById("joinType").value,b=document.getElementById("joinBio").value,l=document.getElementById("joinLink").value;
-if(!n||!w||!b){alert("请填写必填项");return;}
-var apps=JSON.parse(localStorage.getItem("xuanjian_joins")||"[]");apps.push({name:n,wechat:w,school:s,type:t,bio:b,link:l,date:new Date().toISOString().slice(0,10)});localStorage.setItem("xuanjian_joins",JSON.stringify(apps));
-closeMod("joinModal");showMsg("申请已提交！","3个工作日内审核，请留意微信 <strong>TheFool0521</strong> 的好友申请。");
-}
-
-// Utils
 function closeMod(id){document.getElementById(id).classList.remove("show");}
-function showMsg(title,msg){document.getElementById("msgContent").innerHTML="<h3>"+title+"</h3><p style="margin:16px 0;line-height:2">"+msg+"</p><button class="btn btn-primary" onclick="closeMod('msgModal')">知道了</button>";document.getElementById("msgModal").classList.add("show");}
-function openDeepSeek(){window.open("https://chat.deepseek.com","_blank");}
-function openFeedback(){showMsg("感谢反馈！","玄鉴将认真对待每一条建议。<br>也可以直接联系：<br>📧 wyz2795206085@outlook.com<br>💬 微信 TheFool0521");}
-function openTerms(){showMsg("用户须知","<b>平台服务费（抽成）：</b><br>简历润色 15% | 校园约拍 15%<br>学长咨询 20% | 科研推荐 25%<br><br><b>付款方式：</b>所有费用先收到平台收款码，服务完成确认后平台将报酬转给接单者。<br><br><b>投稿说明：</b>投稿免费，发布即公开展示。请勿发布违规内容。<br><br><b>免责声明：</b>平台仅提供信息撮合，不承担服务纠纷责任。");}
+function showMsg(title,msg){document.getElementById("mmContent").innerHTML="<h3>"+title+"</h3><p style='margin:16px 0;line-height:2'>"+msg+"</p><button class='btn btn-primary' onclick='closeMod('mm')'>知道了</button>";document.getElementById("mm").classList.add("show");}
+function showTerms(){showMsg("用户须知","<b>收费说明：</b>所有费用先收到平台好友码，确认后对接服务。<br><b>抽成比例：</b>简历/约拍 15%，咨询 20%，科研 25%。<br><b>投稿说明：</b>投稿免费，发布即展示。<br><b>免责声明：</b>平台仅提供信息撮合。");}
 
-// Init with error handling
-try {
-  renderBus();startCD();
-  var allA=loadArticles();renderArts("all","homeArticles");renderArts("all","subArticles");
-} catch(e) {
-  console.error("Init error:", e);
-  document.getElementById("homeArticles").innerHTML = "<p style='text-align:center;color:#888;padding:20px'>欢迎来到农大玄鉴！点击上方导航开始使用。</p>";
-}
+renderBus();startCD();renderArts("all","homeArticles");renderArts("all","subArticles");
 </script>
 </body></html>
