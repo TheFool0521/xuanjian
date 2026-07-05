@@ -12,8 +12,14 @@ import jwt
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_DIR = os.path.join(BASE_DIR, 'uploads')
 DB_PATH = os.path.join(BASE_DIR, 'data.db')
-ADMIN_PW_HASH = hashlib.sha256('xuanjian2026'.encode()).hexdigest()
-JWT_SECRET = 'xuanjian-cau-platform-secret-key-2026!'
+
+# 从环境变量读取敏感配置，本地开发有默认值
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'xuanjian2026')
+ADMIN_PW_HASH = hashlib.sha256(ADMIN_PASSWORD.encode()).hexdigest()
+JWT_SECRET = os.environ.get('JWT_SECRET', 'xuanjian-cau-platform-secret-key-2026!')
+PORT = int(os.environ.get('PORT', 5000))
+DEBUG = os.environ.get('FLASK_DEBUG', '0') == '1'
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
@@ -238,4 +244,4 @@ def index():
     return send_from_directory(BASE_DIR, 'index.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=PORT, debug=DEBUG)
