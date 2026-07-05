@@ -1,9 +1,0 @@
-server.py
-requirements.txt
-runtime.txt
-__pycache__/
-*.db
-*.db-journal
-*.db-wal
-uploads/
-推送.bat
