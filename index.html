@@ -1124,6 +1124,61 @@ loadArticles().then(function(){renderArticles();renderHomeArticles();});
 renderBusTimes();startCountdown();
 
 document.addEventListener('keydown',function(e){if(e.ctrlKey&&e.key==='m'){e.preventDefault();if(isAdmin)exitAdmin();else enterAdmin();}});
+
+// === Backend API (with localStorage fallback) ===
+const API = window.location.hostname==='localhost' || window.location.hostname==='127.0.0.1' 
+    ? 'http://localhost:5000' : '';
+
+async function api(url, opts={}){
+    try{
+        const r=await fetch(API+url,{headers:{'Content-Type':'application/json',...opts.headers},...opts});
+        return await r.json();
+    }catch(e){
+        console.log('API offline, using localStorage');
+        return null;
+    }
+}
+
+// admin
+async function doAdminLogin(pw){
+    const r=await api('/api/admin/login',{method:'POST',body:JSON.stringify({password:pw})});
+    return r;
+}
+
+async function fetchPending(){
+    const r=await api('/api/admin/pending',{headers:{'Authorization':'Bearer '+adminToken}});
+    return r||[];
+}
+
+async function doApprove(aid){
+    return await api('/api/admin/approve/'+aid,{method:'POST',headers:{'Authorization':'Bearer '+adminToken}});
+}
+
+async function doReject(aid){
+    return await api('/api/admin/reject/'+aid,{method:'DELETE',headers:{'Authorization':'Bearer '+adminToken}});
+}
+
+async function submitArticle(data){
+    const fd=new FormData();
+    for(const k in data) fd.append(k,data[k]);
+    return await api('/api/articles',{method:'POST',body:fd,headers:{}});
+}
+
+async function fetchArticles(cat){
+    const url=cat?'/api/articles?category='+encodeURIComponent(cat):'/api/articles';
+    return await api(url)||[];
+}
+
+async function submitBooking(data){
+    return await api('/api/bookings',{method:'POST',body:JSON.stringify(data)});
+}
+
+async function submitJoinApp(data){
+    return await api('/api/join',{method:'POST',body:JSON.stringify(data)});
+}
+
+let adminToken='';
 </script>
+<!--api-->
 </body>
 </html>
