@@ -77,7 +77,11 @@ def init_db():
     db.commit()
     db.close()
 
-init_db()
+try:
+    init_db()
+    print('Database initialized successfully')
+except Exception as e:
+    print(f'Database init warning (server still starting): {e}')
 
 # ===== 工具函数 =====
 def allowed_file(filename):
