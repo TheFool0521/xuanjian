@@ -238,6 +238,16 @@ def create_join():
 def uploaded_file(filename):
     return send_from_directory(UPLOAD_DIR, filename)
 
+# ===== 健康检查（Railway 需要） =====
+@app.route('/health')
+def health():
+    try:
+        db = get_db()
+        db.execute('SELECT 1')
+        return jsonify({'status': 'ok', 'db': 'connected'})
+    except:
+        return jsonify({'status': 'ok', 'db': 'error'}), 200
+
 # ===== 静态文件 =====
 @app.route('/')
 def index():
