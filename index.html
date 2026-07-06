@@ -685,6 +685,7 @@ function toggleNav(){
 // ==========================================
 function toast(msg,err){
   var t=document.getElementById('toast');
+  if(!t)return;
   t.textContent=msg;t.className='toast'+(err?' err':'')+' show';
   clearTimeout(t._tid);
   t._tid=setTimeout(function(){t.classList.remove('show')},2400);
