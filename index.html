@@ -755,28 +755,33 @@ function closeZoom(){
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeZoom()});
 
 // ==========================================
-// 留言板
+// 留言存储（localStorage，Vercel/本地通用）
 // ==========================================
-var API='';
-function api(path,opts){
-  opts=opts||{};var h=opts.headers||{};
-  if(opts.json!==false&&!opts.body)h['Content-Type']='application/json';
-  return fetch(API+path,{method:opts.method||'GET',headers:h,body:opts.body})
-    .then(function(r){return r.json().then(function(d){if(!r.ok)throw new Error(d.error||'请求失败');return d})});
+var MSG_KEY='xuanjian_msgs';
+function getMsgs(){
+  try{return JSON.parse(localStorage.getItem(MSG_KEY)||'[]')}catch(e){return[]}
+}
+function saveMsgs(arr){
+  try{localStorage.setItem(MSG_KEY,JSON.stringify(arr))}catch(e){toast('存储空间不足，请清理旧留言',true)}
+}
+function nowStr(){
+  var d=new Date();
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes());
 }
 
+// ==========================================
+// 留言板独立页
+// ==========================================
 function loadMessages(){
   var list=document.getElementById('msgList'),empty=document.getElementById('msgEmpty');
-  list.innerHTML='<div class="skel skel-line"></div><div class="skel skel-line w60"></div><div class="skel skel-line"></div>';
-  api('/api/messages').then(function(data){
-    if(!data||!data.length){list.innerHTML='';empty.style.display='block';return}
-    empty.style.display='none';list.innerHTML='';
-    data.forEach(function(m,i){
-      var c=document.createElement('div');c.className='msg-card';c.style.animationDelay=(i*.04)+'s';
-      c.innerHTML='<div class="msg-top"><span class="msg-nick">'+esc(m.nickname||'匿名')+'</span><span class="msg-time">'+esc(m.date||'')+'</span></div><div class="msg-text">'+esc(m.content)+'</div>';
-      list.appendChild(c);
-    });
-  }).catch(function(e){list.innerHTML='';empty.style.display='block';empty.textContent='加载失败：'+e.message});
+  var msgs=getMsgs();
+  if(!msgs.length){list.innerHTML='';empty.style.display='block';return}
+  empty.style.display='none';list.innerHTML='';
+  msgs.slice().reverse().forEach(function(m,i){
+    var c=document.createElement('div');c.className='msg-card';c.style.animationDelay=(i*.04)+'s';
+    c.innerHTML='<div class="msg-top"><span class="msg-nick">'+esc(m.nickname||'匿名')+'</span><span class="msg-time">'+esc(m.date||'')+'</span></div><div class="msg-text">'+esc(m.content)+'</div>';
+    list.appendChild(c);
+  });
 }
 
 function postMessage(){
@@ -784,16 +789,15 @@ function postMessage(){
   var txt=document.getElementById('msgContent').value.trim();
   if(!txt){toast('请输入留言内容',true);return}
   if(txt.length>2000){toast('留言不能超过 2000 字',true);return}
-  var btn=document.querySelector('#msgForm .btn-primary');
-  btn.disabled=true;btn.textContent='发送中…';
-  api('/api/messages',{method:'POST',body:JSON.stringify({nickname:nick||'匿名',content:txt})})
-    .then(function(){
-      document.getElementById('msgContent').value='';
-      document.getElementById('msgNickname').value='';
-      document.getElementById('charCount').textContent='0 / 2000';
-      btn.disabled=false;btn.textContent='发布留言';
-      toast('留言发布成功');loadMessages();
-    }).catch(function(e){btn.disabled=false;btn.textContent='发布留言';toast(e.message,true)});
+  var msgs=getMsgs();
+  msgs.push({nickname:nick||'匿名',content:txt,date:nowStr()});
+  // 最多保留 500 条
+  if(msgs.length>500)msgs=msgs.slice(-500);
+  saveMsgs(msgs);
+  document.getElementById('msgContent').value='';
+  document.getElementById('msgNickname').value='';
+  document.getElementById('charCount').textContent='0 / 2000';
+  toast('留言发布成功');loadMessages();loadWall();
 }
 
 document.addEventListener('DOMContentLoaded',function(){
@@ -804,50 +808,47 @@ document.addEventListener('DOMContentLoaded',function(){
 function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
 
 // ==========================================
-// ==========================================
 // 首页留言墙渲染（混合尺寸）
 // ==========================================
 var WALL_COLORS=['t1','t2','t3','t4','t5'];
+
 // 首页快捷发布
 function quickPost(){
   var inp=document.getElementById('quickContent');
   var txt=(inp.value||'').trim();
   if(!txt){toast('请输入内容',true);return}
   if(txt.length>500){toast('不能超过 500 字',true);return}
-  var btn=document.querySelector('.home-post .btn');
-  btn.disabled=true;btn.textContent='发送中…';
-  api('/api/messages',{method:'POST',body:JSON.stringify({nickname:'匿名',content:txt})})
-    .then(function(){
-      inp.value='';btn.disabled=false;btn.textContent='发布';
-      toast('发布成功');loadWall();
-    }).catch(function(e){btn.disabled=false;btn.textContent='发布';toast(e.message,true)});
+  var msgs=getMsgs();
+  msgs.push({nickname:'匿名',content:txt,date:nowStr()});
+  if(msgs.length>500)msgs=msgs.slice(-500);
+  saveMsgs(msgs);
+  inp.value='';
+  toast('发布成功');loadWall();loadMessages();
 }
 
 function loadWall(){
   var grid=document.getElementById('wallGrid');
   var empty=document.getElementById('wallEmpty');
   if(!grid)return;
-  grid.innerHTML='<div class="skel skel-line"></div><div class="skel skel-line w60"></div><div class="skel skel-line"></div>';
-  api('/api/messages').then(function(data){
-    if(!data||!data.length){grid.innerHTML='';empty.style.display='block';return}
-    empty.style.display='none';grid.innerHTML='';
-    // 只展示最近 12 条
-    var msgs=data.slice(0,12);
-    msgs.forEach(function(m,i){
-      var len=(m.content||'').length;
-      var cls,colorClass='';
-      if(len<=50){cls='short';colorClass=WALL_COLORS[i%WALL_COLORS.length]}
-      else if(len<=180){cls='medium'}
-      else{cls='long'}
-      var el=document.createElement('div');
-      el.className='msg-brick '+cls+' '+colorClass;
-      el.style.animationDelay=(i*.05)+'s';
-      var html='<div class="brick-text">'+esc(m.content)+'</div>';
-      html+='<div class="brick-meta"><span class="brick-nick">'+esc(m.nickname||'匿名')+'</span>'+esc(m.date||'')+'</div>';
-      el.innerHTML=html;
-      grid.appendChild(el);
-    });
-  }).catch(function(e){grid.innerHTML='';empty.style.display='block';empty.textContent='加载失败：'+e.message});
+  var msgs=getMsgs();
+  if(!msgs.length){grid.innerHTML='';empty.style.display='block';return}
+  empty.style.display='none';grid.innerHTML='';
+  // 最近 12 条，倒序
+  var recent=msgs.slice().reverse().slice(0,12);
+  recent.forEach(function(m,i){
+    var len=(m.content||'').length;
+    var cls,colorClass='';
+    if(len<=50){cls='short';colorClass=WALL_COLORS[i%WALL_COLORS.length]}
+    else if(len<=180){cls='medium'}
+    else{cls='long'}
+    var el=document.createElement('div');
+    el.className='msg-brick '+cls+' '+colorClass;
+    el.style.animationDelay=(i*.05)+'s';
+    var html='<div class="brick-text">'+esc(m.content)+'</div>';
+    html+='<div class="brick-meta"><span class="brick-nick">'+esc(m.nickname||'匿名')+'</span>'+esc(m.date||'')+'</div>';
+    el.innerHTML=html;
+    grid.appendChild(el);
+  });
 }
 
 // ==========================================
