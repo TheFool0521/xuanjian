@@ -8,7 +8,7 @@ echo.
 cd /d "C:\Users\王翌哲\Desktop\农大玄鉴"
 
 echo [1/6] 设置 Git 身份...
-git config --global user.email "wyz2795206085@outlook,com"
+git config --global user.email "wyz2795206085@outlook.com"
 git config --global user.name "TheFool0521"
 
 echo.
